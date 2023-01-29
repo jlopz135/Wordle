@@ -1,7 +1,9 @@
 package com.example.wordle
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -13,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val buttonClick = findViewById<Button>(R.id.guessButton)
         var userGuess = findViewById<EditText>(R.id.editText)
 
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         var guesses = 0
         val answer = findViewById<TextView>(R.id.correctWord)
         buttonClick.setOnClickListener {
+            userGuess.hideKeyboard()
             // Getting the user input
             var guess = ""
 
@@ -44,17 +46,55 @@ class MainActivity : AppCompatActivity() {
             // Showing the user input
             Toast.makeText(this, checkGuess(guess), Toast.LENGTH_SHORT).show()
 
+            when(guesses){
+                0 -> {
+                    x1.text = guess
+                    m1.text = checkGuess(guess)
+                    m1.visibility = View.VISIBLE
+                    x1.visibility = View.VISIBLE
+                    c1.visibility = View.VISIBLE
+
+
+                }
+                1 -> {
+                    x2.text = guess
+                    m2.text = checkGuess(guess)
+                    g2.visibility = View.VISIBLE
+                    x2.visibility = View.VISIBLE
+                    c2.visibility = View.VISIBLE
+                    m2.visibility = View.VISIBLE
+                }
+                2 -> {
+                    x3.text = guess
+                    m3.text = checkGuess(guess)
+                    g3.visibility = View.VISIBLE
+                    x3.visibility = View.VISIBLE
+                    c3.visibility = View.VISIBLE
+                    m3.visibility = View.VISIBLE
+                }
+
+                else ->{
+                    println("Error")
+            }
+
+
+        }
+            guesses +=1
             if (guesses > 2){
                 answer.visibility = View.VISIBLE
                 answer.text = wordToGuess
                 userGuess.isEnabled = false
                 buttonClick.isEnabled = false
             }
-            guesses +=1
+
         }
 
     }
 
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
     private var wordToGuess = getRandomFourLetterWord()
 
     private fun checkGuess(guess: String): String {
