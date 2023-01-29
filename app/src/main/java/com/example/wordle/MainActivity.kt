@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
             if (guesses > 2){
                 answer.visibility = View.VISIBLE
                 answer.text = wordToGuess
+                userGuess.isEnabled = false
+                buttonClick.isEnabled = false
             }
             guesses +=1
         }
