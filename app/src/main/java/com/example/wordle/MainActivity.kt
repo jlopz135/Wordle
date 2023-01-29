@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         buttonClick.setOnClickListener {
             // Getting the user input
             var guess = ""
+
             guess = userGuess.text.toString()
 
             // Showing the user input
