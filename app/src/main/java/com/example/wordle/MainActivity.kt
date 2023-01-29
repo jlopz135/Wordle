@@ -46,14 +46,13 @@ class MainActivity : AppCompatActivity() {
             // Showing the user input
             Toast.makeText(this, checkGuess(guess), Toast.LENGTH_SHORT).show()
 
-            when(guesses){
+            when (guesses) {
                 0 -> {
                     x1.text = guess
                     m1.text = checkGuess(guess)
                     m1.visibility = View.VISIBLE
                     x1.visibility = View.VISIBLE
                     c1.visibility = View.VISIBLE
-
 
                 }
                 1 -> {
@@ -73,14 +72,13 @@ class MainActivity : AppCompatActivity() {
                     m3.visibility = View.VISIBLE
                 }
 
-                else ->{
+                else -> {
                     println("Error")
+                }
+
             }
-
-
-        }
-            guesses +=1
-            if (guesses > 2){
+            guesses += 1
+            if (guesses > 2) {
                 answer.visibility = View.VISIBLE
                 answer.text = wordToGuess
                 userGuess.isEnabled = false
@@ -91,10 +89,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun View.hideKeyboard() {
+    private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
+
     private var wordToGuess = getRandomFourLetterWord()
 
     private fun checkGuess(guess: String): String {
