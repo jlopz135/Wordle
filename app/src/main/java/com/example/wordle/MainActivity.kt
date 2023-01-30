@@ -1,58 +1,91 @@
 package com.example.wordle
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wordle.FourLetterWordList.getRandomFourLetterWord
 
+var guesses = 0
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val reset = findViewById<Button>(R.id.resetButton)
+
+        val starLeft = findViewById<ImageButton>(R.id.starLeft)
+        val starRight = findViewById<ImageButton>(R.id.starRight)
+
         val buttonClick = findViewById<Button>(R.id.guessButton)
-        var userGuess = findViewById<EditText>(R.id.editText)
+        val userGuess = findViewById<EditText>(R.id.editText)
 
-        var g1 = findViewById<TextView>(R.id.guess1)
-        var g2 = findViewById<TextView>(R.id.guess2)
-        var g3 = findViewById<TextView>(R.id.guess3)
+        val g2 = findViewById<TextView>(R.id.guess2)
+        val g3 = findViewById<TextView>(R.id.guess3)
 
-        var x1 = findViewById<TextView>(R.id.userGuess1)
-        var x2 = findViewById<TextView>(R.id.userGuess2)
-        var x3 = findViewById<TextView>(R.id.userGuess3)
+        val x1 = findViewById<TextView>(R.id.userGuess1)
+        val x2 = findViewById<TextView>(R.id.userGuess2)
+        val x3 = findViewById<TextView>(R.id.userGuess3)
 
-        var c1 = findViewById<TextView>(R.id.guess1Check)
-        var c2 = findViewById<TextView>(R.id.guess2Check)
-        var c3 = findViewById<TextView>(R.id.guess3Check)
+        val c1 = findViewById<TextView>(R.id.guess1Check)
+        val c2 = findViewById<TextView>(R.id.guess2Check)
+        val c3 = findViewById<TextView>(R.id.guess3Check)
 
-        var m1 = findViewById<TextView>(R.id.match1)
-        var m2 = findViewById<TextView>(R.id.match2)
-        var m3 = findViewById<TextView>(R.id.match3)
+        val m1 = findViewById<TextView>(R.id.match1)
+        val m2 = findViewById<TextView>(R.id.match2)
+        val m3 = findViewById<TextView>(R.id.match3)
 
-        var guesses = 0
         val answer = findViewById<TextView>(R.id.correctWord)
+        reset.setOnClickListener {
+            // lower button and change guess # visibility
+            guesses = 0
+            wordToGuess = getRandomFourLetterWord()
+            starLeft.visibility = View.INVISIBLE
+            starRight.visibility = View.INVISIBLE
+
+            m1.visibility = View.INVISIBLE
+            x1.visibility = View.INVISIBLE
+            c1.visibility = View.INVISIBLE
+
+            g2.visibility = View.INVISIBLE
+            m2.visibility = View.INVISIBLE
+            x2.visibility = View.INVISIBLE
+            c2.visibility = View.INVISIBLE
+
+            g3.visibility = View.INVISIBLE
+            m3.visibility = View.INVISIBLE
+            x3.visibility = View.INVISIBLE
+            c3.visibility = View.INVISIBLE
+
+            answer.visibility = View.INVISIBLE
+            userGuess.hint = "Enter 4 Letter Guess Here"
+            userGuess.isEnabled = true
+            buttonClick.isEnabled = true
+        }
+
         buttonClick.setOnClickListener {
             userGuess.hideKeyboard()
             // Getting the user input
-            var guess = ""
-
-            guess = userGuess.text.toString()
+            val guess = userGuess.text.toString()
 
             // Showing the user input
             Toast.makeText(this, checkGuess(guess), Toast.LENGTH_SHORT).show()
-
+            val color = rightWrong(guess)
             when (guesses) {
                 0 -> {
+
                     x1.text = guess
                     m1.text = checkGuess(guess)
                     m1.visibility = View.VISIBLE
                     x1.visibility = View.VISIBLE
                     c1.visibility = View.VISIBLE
+
 
                 }
                 1 -> {
@@ -79,6 +112,15 @@ class MainActivity : AppCompatActivity() {
             }
             guesses += 1
             if (guesses > 2) {
+                if(color){
+                    answer.setTextColor(Color.parseColor("#00FF00"))
+                    starLeft.visibility = View.VISIBLE
+                    starRight.visibility = View.VISIBLE
+
+                }
+                else{
+                    answer.setTextColor(Color.parseColor("#FF0000"))
+                }
                 answer.visibility = View.VISIBLE
                 answer.text = wordToGuess
                 userGuess.isEnabled = false
@@ -93,9 +135,14 @@ class MainActivity : AppCompatActivity() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
-
+    private fun  rightWrong(guess: String): Boolean{
+        var rW = false
+        if(guess == wordToGuess){
+            rW = true
+        }
+        return rW
+    }
     private var wordToGuess = getRandomFourLetterWord()
-
     private fun checkGuess(guess: String): String {
         var result = ""
         for (i in 0..3) {

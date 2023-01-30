@@ -1,7 +1,5 @@
 package com.example.wordle
 
-import android.util.Log
-import android.widget.Toast
 
 object FourLetterWordList {
     // List of most common 4 letter words from: https://7esl.com/4-letter-words/
@@ -17,7 +15,6 @@ object FourLetterWordList {
     fun getRandomFourLetterWord(): String {
         val allWords = getAllFourLetterWords()
         val randomNumber = (0..allWords.size).shuffled().last()
-        Log.v("guessButton", allWords[randomNumber])
         return allWords[randomNumber].uppercase()
     }
 }

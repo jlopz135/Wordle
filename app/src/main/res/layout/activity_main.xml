@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="350dp"
+            android:layout_marginTop="320dp"
+            android:layout_marginEnd="350dp"
+            android:layout_marginBottom="250dp"
+            android:onClick="reset"
+            android:text="Reset" />
+
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/guess1"
@@ -82,6 +105,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guess2" />
 
+    <ImageButton
+        android:id="@+id/starRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp"
+        android:background="#00ffffff"
+        android:src="@android:drawable/btn_star"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guessButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/correctWord" />
+
+    <ImageButton
+        android:id="@+id/starLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00ffffff"
+        android:paddingBottom="50dp"
+        android:src="@android:drawable/btn_star"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintEnd_toStartOf="@+id/correctWord"
+        app:layout_constraintStart_toStartOf="parent" />
     <TextView
         android:id="@+id/match2"
         android:layout_width="wrap_content"
@@ -137,12 +183,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userGuess3" />
 
+
     <EditText
         android:id="@+id/editText"
         android:layout_width="274dp"
         android:layout_height="50dp"
-        android:hint="Enter 4 Letter Guess Here"
         android:inputType="textCapCharacters"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:hint="Enter 4 Letter Guess Here"
+        android:maxLength="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guessButton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -152,7 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:text="Guess!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -163,12 +212,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:text="YELLOW"
+        android:text="XXXX"
         android:textSize="40sp"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
